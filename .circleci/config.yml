@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  lsif-node:
+    docker:
+      - image: sourcegraph/lsif-node@sha256:943e620468baa9c1ad01a469e4ada02221105c6c4172542c8136965e482db791
+    steps:
+      - checkout
+      - run: npm i
+      - run: npm i --no-save typescript@3.7.2
+      - run: lsif-tsc -p .
+      - run: src lsif upload -no-progress
+
+workflows:
+  lsif-node:
+    jobs:
+      - lsif-node
